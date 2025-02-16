@@ -1,64 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, SafeAreaView, TouchableOpacity, Image, Alert } from 'react-native';
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
-import { useAuthRequest, makeRedirectUri, ResponseType } from 'expo-auth-session';
-import { router, useNavigation } from 'expo-router';
-
-const clientId = '83f6deddb76547e58f62b791154d8e67'; // Your Spotify client ID
-
-// Using makeRedirectUri to generate a correct redirect URI
-const redirectUri = makeRedirectUri({
-  scheme: 'Spotify-Clone',  // Replace with your app's scheme
-});
-console.log(redirectUri);
+import { router } from 'expo-router';
+import api from '../../services/api'; // Import the API service
 
 const LogIn = () => {
   const [accessToken, setAccessToken] = useState(null);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
-  const navigation = useNavigation();
 
-  const [request, response, promptAsync] = useAuthRequest(
-    {
-      responseType: ResponseType.Token,  // Using implicit flow, gets the token directly
-      clientId,
-      scopes: [
-        'user-read-email',
-        'user-library-read',
-        'user-read-recently-played',
-        'user-top-read',
-        'playlist-read-private',
-        'playlist-read-collaborative',
-        'playlist-modify-public',
-      ],
-      redirectUri,  // Using the generated redirect URI
-    },
-    {
-      authorizationEndpoint: 'https://accounts.spotify.com/authorize',
-    }
-  );
+  const { request, response, promptAsync } = api.useSpotifyAuth(); // Use the custom API service
 
   useEffect(() => {
-    if (response?.type === 'success') {
-      const { access_token } = response.params;
-      setAccessToken(access_token); // Set the access token once obtained
-      console.log('Access Token:', access_token);
+    const saveToken = async () => {
+      console.log("I am saving token:::::::======");
+      if (response?.type === "success") {
+        console.log("Auth Response:", response);
 
-      // Navigate to the next screen or home
-      navigation.navigate('home');  // Make sure you have a 'home' route in your navigation stack
-    } else if (response?.type === 'error') {
-      console.error('Auth Error:', response.error);
-      Alert.alert('Error', response.error);
-    }
+        const { access_token, expires_in } = response.params;
+        if (access_token) {
+          const expirationDate = Date.now() + expires_in * 1000;
+          setAccessToken(access_token); // Convert expires_in to milliseconds
+          console.log("Token and expiration date saved!");
+          router.push("../(tabs)/home");
+        }
+      } else if (response?.type === "error") {
+        console.error("Auth Error:", response.error);
+        Alert.alert("Error", response.error);
+      }
+    };
+
+    saveToken();
   }, [response]);
 
   const handleLoginWithSpotify = async () => {
     if (!request || isAuthenticating) return;
     try {
+      console.log("Prompting Spotify Auth...");
       setIsAuthenticating(true);
-      await promptAsync(); // Initiates the login process
+      await promptAsync();
       setIsAuthenticating(false);
     } catch (err) {
-      console.log('Prompt async error:', err);
+      console.log("Prompt async error:", err);
+      Alert.alert("Error", err.message);
     }
   };
 
