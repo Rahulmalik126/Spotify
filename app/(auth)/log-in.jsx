@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, Pressable, SafeAreaView, TouchableOpacity, Image, Alert } from 'react-native';
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../../services/api'; // Import the API service
 
 const LogIn = () => {
@@ -20,6 +21,7 @@ const LogIn = () => {
         if (access_token) {
           const expirationDate = Date.now() + expires_in * 1000;
           setAccessToken(access_token); // Convert expires_in to milliseconds
+          await AsyncStorage.setItem('accessToken', access_token);
           console.log("Token and expiration date saved!");
           router.push("../(tabs)/home");
         }
