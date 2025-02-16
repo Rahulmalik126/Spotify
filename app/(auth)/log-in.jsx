@@ -22,6 +22,11 @@ const LogIn = () => {
           const expirationDate = Date.now() + expires_in * 1000;
           setAccessToken(access_token); // Convert expires_in to milliseconds
           await AsyncStorage.setItem('accessToken', access_token);
+          await AsyncStorage.setItem(
+            "expirationDate",
+            expirationDate.toString()
+          );
+
           console.log("Token and expiration date saved!");
           router.push("../(tabs)/home");
         }
@@ -46,6 +51,31 @@ const LogIn = () => {
       Alert.alert("Error", err.message);
     }
   };
+
+  useEffect(() => {
+    const checkTokenValidity = async () => {
+      console.log("Checking token validity...");
+
+      const accessToken = await AsyncStorage.getItem("accessToken");
+      const expirationDate = await AsyncStorage.getItem("expirationDate");
+      console.log("Retrieved access token:", accessToken);
+      console.log("Retrieved expiration date:", expirationDate);
+
+      if (accessToken && expirationDate) {
+        const currentTime = Date.now();
+        if (currentTime < parseInt(expirationDate)) {
+          console.log("Token is still valid, navigating to Main...");
+        } else {
+          console.log("Token expired, clearing storage...");
+          await AsyncStorage.removeItem("accessToken");
+          await AsyncStorage.removeItem("expirationDate");
+        }
+      }
+    };
+
+    checkTokenValidity();
+  }, []);
+
 
   return (
     <View className="flex-1 bg-black">

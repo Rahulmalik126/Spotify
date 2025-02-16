@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import api from '../../services/api'; // Import the API service
+import { StatusBar } from 'expo-status-bar';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Home = () => {
   const [userProfile, setUserProfile] = useState(null);
@@ -21,33 +23,20 @@ const Home = () => {
 
   return (
     <ScrollView>
+    <SafeAreaView>
+
       <View className="bg-black h-full flex flex-1 justify-center w-full">
         {userProfile ? (
           <View
-            style={{
-              position: 'absolute',
-              top: 10,
-              right: 10,
-              flexDirection: 'row',
-              alignItems: 'center',
-            }}
-          >
+          className="flex items-center bg-black, h-full"
+    >
             {/* Check if userProfile.images exists and has items */}
             {userProfile.images && userProfile.images.length > 0 && (
               <Image
                 source={{ uri: userProfile.images[0]?.url }}
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 20,
-                  borderWidth: 2,
-                  borderColor: 'white',
-                }}
-              />
-            )}
-            <Text style={{ color: 'white', marginLeft: 10, fontWeight: 'bold' }}>
-              {userProfile.display_name}
-            </Text>
+                className="w-50 h-50 rounded-xl border-2 border-white"
+                />
+              )}
           </View>
         ) : (
           <Text style={{ color: 'white', textAlign: 'center', marginTop: 20 }}>
@@ -55,6 +44,8 @@ const Home = () => {
           </Text>
         )}
       </View>
+      <StatusBar backgroundColor="black" style="light"/>
+        </SafeAreaView>
     </ScrollView>
   );
 };
