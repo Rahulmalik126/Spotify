@@ -4,6 +4,7 @@ import { Entypo, MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../../services/api'; // Import the API service
+import { StatusBar } from 'expo-status-bar';
 
 const LogIn = () => {
   const [accessToken, setAccessToken] = useState(null);
@@ -52,31 +53,6 @@ const LogIn = () => {
     }
   };
 
-  useEffect(() => {
-    const checkTokenValidity = async () => {
-      console.log("Checking token validity...");
-
-      const accessToken = await AsyncStorage.getItem("accessToken");
-      const expirationDate = await AsyncStorage.getItem("expirationDate");
-      console.log("Retrieved access token:", accessToken);
-      console.log("Retrieved expiration date:", expirationDate);
-
-      if (accessToken && expirationDate) {
-        const currentTime = Date.now();
-        if (currentTime < parseInt(expirationDate)) {
-          console.log("Token is still valid, navigating to Main...");
-        } else {
-          console.log("Token expired, clearing storage...");
-          await AsyncStorage.removeItem("accessToken");
-          await AsyncStorage.removeItem("expirationDate");
-        }
-      }
-    };
-
-    checkTokenValidity();
-  }, []);
-
-
   return (
     <View className="flex-1 bg-black">
       <SafeAreaView className="flex-1">
@@ -123,6 +99,7 @@ const LogIn = () => {
             <Text className="text-white text-xl font-bold">Sign up</Text>
           </TouchableOpacity>
         </View>
+        <StatusBar backgroundColor="black" style="light" />
       </SafeAreaView>
     </View>
   );

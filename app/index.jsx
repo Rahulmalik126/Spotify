@@ -1,11 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Entypo } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Page() {
+
+  useEffect(() => {
+    const checkTokenValidity = async () => {
+      console.log("Checking token validity...");
+  
+      const accessToken = await AsyncStorage.getItem("accessToken");
+      const expirationDate = await AsyncStorage.getItem("expirationDate");
+      console.log("Retrieved access token:", accessToken);
+      console.log("Retrieved expiration date:", expirationDate);
+  
+      if (accessToken && expirationDate) {
+        const currentTime = Date.now();
+        if (currentTime < parseInt(expirationDate)) {
+          console.log("Token is still valid, navigating to Main...");
+          router.push("./(tabs)/home")
+        } else {
+          console.log("Token expired, clearing storage...");
+          await AsyncStorage.removeItem("accessToken");
+          await AsyncStorage.removeItem("expirationDate");
+        }
+      }
+    };
+  
+    checkTokenValidity();
+  }, []);
+  
+
   return (
     <LinearGradient
       colors={['gray', 'black']}

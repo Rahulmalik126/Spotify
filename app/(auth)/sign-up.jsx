@@ -2,6 +2,7 @@ import { View, Text, Pressable, Image, SafeAreaView, TouchableOpacity } from 're
 import React from 'react';
 import { Entypo, MaterialIcons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 
 const SignUp = () => {
   return (
@@ -54,6 +55,7 @@ const SignUp = () => {
           </TouchableOpacity>
         </View>
       </SafeAreaView>
+      <StatusBar backgroundColor="black" style="light" />
     </View>
   );
 };

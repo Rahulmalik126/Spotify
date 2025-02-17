@@ -2,7 +2,7 @@ import { useAuthRequest, ResponseType } from 'expo-auth-session';
 import { makeRedirectUri } from 'expo-auth-session';
 import { apiConfig } from '../config/index';
 import { axiosRequest } from "./apiConnector";
-import { USER_ENDPOINTS } from "./apiEndpoints";
+import { USER_ENDPOINTS, PLAYLIST, TRACKS, ALBUM_ENDPOINTS } from "./apiEndpoints";
 
 const { GET_CURRENT_USER, GET_TOP_ITEMS, GET_RECENTLY_PLAYED } = USER_ENDPOINTS;
 
@@ -47,6 +47,39 @@ const api = {
         throw new Error(err.message);
       }    
   },
+  fetchFeaturedPlaylists: async () => {
+    try {
+      let response = await axiosRequest("GET", PLAYLIST.GET_FEATURED_PLAYLIST, null, null, {});
+      if (!response?.data) {
+        throw new Error("Unexpected response format");
+      }
+      return response.data;
+    } catch (err) {
+      throw new Error(err.message);
+    }    
+  },
+  fetchRecentTracks: async () => {
+    try {
+      let response = await axiosRequest("GET", TRACKS.GET_RECENT_TRACKS, null, null, {});
+      if (!response?.data) {
+        throw new Error("Unexpected response format");
+      }
+      return response.data;
+    } catch (err) {
+      throw new Error(err.message);
+    }    
+  },
+  fetchNewReleases:async ()=> {
+    try {
+      let response = await axiosRequest("GET", ALBUM_ENDPOINTS.GET_NEW_RELEASES, null, null, {});
+      if (!response?.data) {
+        throw new Error("Unexpected response format");
+      }
+      return response.data;
+    } catch (err) {
+      throw new Error(err.message);
+    }    
+  }
 };
 
 export default api;

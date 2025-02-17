@@ -1,10 +1,20 @@
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { Tabs } from 'expo-router';
 import { Octicons, Feather, Ionicons } from '@expo/vector-icons';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import GlobalProvider from '../../context/contextProvider';
+import DrawerContent from '../../components/DrawerContent';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+const Drawer = createDrawerNavigator();
+
+
 
 const TabsLayout = () => {
   return (
+    <GlobalProvider>
+
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: 'white',
@@ -21,7 +31,7 @@ const TabsLayout = () => {
           borderTopWidth: 0,
         },
       }}
-    >
+      >
       <Tabs.Screen
         name="home"
         options={{
@@ -62,7 +72,38 @@ const TabsLayout = () => {
         }}
       />
     </Tabs>
+            </GlobalProvider>
   );
 };
 
-export default TabsLayout;
+// export default TabsLayout;
+
+const DrawerNavigator = () => {
+
+  return (
+    <GlobalProvider>
+    
+    <Drawer.Navigator 
+    drawerContent={() => <DrawerContent />} 
+    screenOptions={{
+      drawerActiveTintColor: 'white',
+      drawerInactiveTintColor: 'gray',
+      drawerLabelStyle: { marginLeft: -25, display:"none" ,height:0},
+    }}
+    >
+      {/* Main screen with image trigger */}
+      <Drawer.Screen
+        name="tabs"
+        component={TabsLayout}
+        options={{
+          headerShown: false,
+        }}
+        />
+        
+    </Drawer.Navigator>
+        </GlobalProvider>
+  );
+};
+
+export default DrawerNavigator;
+
