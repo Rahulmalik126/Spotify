@@ -25,7 +25,6 @@ const Search = () => {
     const fetchData = async () => {
       const topTracksData = await api.fetchTopItems("tracks");
       console.log("CHECK: ", topTracksData);
-
       // Handle top tracks
       if (topTracksData) {
         setTopTracks(topTracksData.items);
@@ -35,6 +34,7 @@ const Search = () => {
     };
     fetchData();
   }, []);
+
 
   const openDrawer = () => {
     navigation.dispatch(DrawerActions.openDrawer());
@@ -47,12 +47,12 @@ const Search = () => {
           {userProfile ? (
             <View className="flex flex-row items-center bg-black h-auto mt-6">
               {userProfile.images && userProfile.images.length > 0 && (
-                <TouchableOpacity onPress={openDrawer}>
+                <TouchableOpacity onPress={openDrawer} className="ml-2">
                   <UserProfilePic userProfile={userProfile} />
                 </TouchableOpacity>
               )}
               <View className="flex flex-row w-[75%] justify-between items-center">
-                <Text className="text-white text-3xl font-bold ml-2">
+                <Text className="text-white text-3xl font-bold ml-4">
                   Search
                 </Text>
                 <Feather name="camera" size={24} color="white" />

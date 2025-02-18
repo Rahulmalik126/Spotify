@@ -21,3 +21,9 @@ export const USER_ENDPOINTS = {
   export const ARTISTS={
     GET_TOP_ARTISTS:"/me/top"
   }
+
+  export const SEARCH = {
+    GET_SEARCHED_DATA: "/search",
+  };
+  
+  

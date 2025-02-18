@@ -2,9 +2,9 @@ import { useAuthRequest, ResponseType } from 'expo-auth-session';
 import { makeRedirectUri } from 'expo-auth-session';
 import { apiConfig } from '../config/index';
 import { axiosRequest } from "./apiConnector";
-import { USER_ENDPOINTS, PLAYLIST, TRACKS, ALBUM_ENDPOINTS, ARTISTS } from "./apiEndpoints";
+import { USER_ENDPOINTS, PLAYLIST, TRACKS, ALBUM_ENDPOINTS, ARTISTS, SEARCH } from "./apiEndpoints";
 
-const { GET_CURRENT_USER, GET_TOP_ITEMS, GET_RECENTLY_PLAYED } = USER_ENDPOINTS;
+const { GET_CURRENT_USER, GET_TOP_ITEMS, GET_RECENTLY_PLAYED, } = USER_ENDPOINTS;
 
 
 const api = {
@@ -93,6 +93,27 @@ const api = {
       
       throw new Error(err.message);
     }    
+  },
+  getSearchResult: async (query)=>{
+    try {
+      const response = await axiosRequest("GET",SEARCH.GET_SEARCHED_DATA,null,null,
+        {
+          query,
+          type: "album,track,playlist,artist",
+          limit: 10,
+          offset: 0,
+        }
+      );
+  
+      if (!response?.data) {
+        throw new Error("Unexpected response format");
+      }
+  
+      return response.data;
+    } catch (err) {
+      throw new Error("Error in fetching categorized result.");
+    }
+  
   }
 };
 
