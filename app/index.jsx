@@ -10,20 +10,14 @@ export default function Page() {
 
   useEffect(() => {
     const checkTokenValidity = async () => {
-      console.log("Checking token validity...");
   
       const accessToken = await AsyncStorage.getItem("accessToken");
       const expirationDate = await AsyncStorage.getItem("expirationDate");
-      console.log("Retrieved access token:", accessToken);
-      console.log("Retrieved expiration date:", expirationDate);
-  
       if (accessToken && expirationDate) {
         const currentTime = Date.now();
         if (currentTime < parseInt(expirationDate)) {
-          console.log("Token is still valid, navigating to Main...");
           router.push("./(tabs)/home")
         } else {
-          console.log("Token expired, clearing storage...");
           await AsyncStorage.removeItem("accessToken");
           await AsyncStorage.removeItem("expirationDate");
         }

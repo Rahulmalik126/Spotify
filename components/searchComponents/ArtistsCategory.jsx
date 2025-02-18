@@ -1,7 +1,7 @@
 import { View, Text, FlatList, Image } from "react-native";
 import React from "react";
 
-const Artists = ({ artists }) => {
+const ArtistsCategory = ({ artists }) => {
   return (
     <FlatList
       className="mt-5"
@@ -36,4 +36,4 @@ const Artists = ({ artists }) => {
   );
 };
 
-export default Artists;
+export default ArtistsCategory;

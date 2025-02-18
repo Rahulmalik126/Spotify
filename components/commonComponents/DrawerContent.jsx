@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import React from 'react';
-import { useGlobalContext } from '../context/contextProvider';
+import { useGlobalContext } from '../../context/contextProvider';
 import UserProfilePic from './UserProfilePic';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';

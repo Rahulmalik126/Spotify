@@ -28,8 +28,6 @@ const AllRecentTracks = () => {
 
     fetchData();
   }, []);
-
-  console.log("Hello",recentTracks);
   
   const renderItem = ({ item }) => {
     return (

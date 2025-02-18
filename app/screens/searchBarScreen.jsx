@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { router } from 'expo-router'
-import SearchResult from '../../components/SearchResult'
+import SearchResult from '../../components/searchComponents/SearchResult'
 import api from '../../services/api'
 
 const SearchBarScreen = () => {
@@ -12,15 +12,9 @@ const SearchBarScreen = () => {
 
   const handleSearch = async () => {
     try {
-      console.log("start");
-      
       const result = await api.getSearchResult(query);
-      console.log("end");
-      
       if (result) {
-        setSearchedData(result);
-        console.log(result);
-        
+        setSearchedData(result);     
       }
     } catch (err) {
       Alert.alert("Error", err.message);

@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity } from 'react-native'
+import { View, Text, Image, TouchableOpacity, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import api from '../../services/api'
@@ -15,10 +15,9 @@ const userProfileScreen = () => {
     const fetchProfile = async () => {
       try {
         const profileData = await api.fetchUserProfile();
-        console.log('User Profile:', profileData); // Log the fetched profile data
         setUserProfile(profileData); // Store the user's profile data
       } catch (error) {
-        console.error('Error fetching profile:', error);
+        Alert.alert('Error fetching profile:', error);
       }
     };
 

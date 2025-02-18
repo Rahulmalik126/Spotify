@@ -7,32 +7,25 @@ import api from '../../services/api'; // Import the API service
 import { StatusBar } from 'expo-status-bar';
 
 const LogIn = () => {
-  const [accessToken, setAccessToken] = useState(null);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   const { request, response, promptAsync } = api.useSpotifyAuth(); // Use the custom API service
 
   useEffect(() => {
     const saveToken = async () => {
-      console.log("I am saving token:::::::======");
       if (response?.type === "success") {
-        console.log("Auth Response:", response);
-
         const { access_token, expires_in } = response.params;
         if (access_token) {
           const expirationDate = Date.now() + expires_in * 1000;
-          setAccessToken(access_token); // Convert expires_in to milliseconds
           await AsyncStorage.setItem('accessToken', access_token);
           await AsyncStorage.setItem(
             "expirationDate",
             expirationDate.toString()
           );
 
-          console.log("Token and expiration date saved!");
           router.push("../(tabs)/home");
         }
       } else if (response?.type === "error") {
-        console.error("Auth Error:", response.error);
         Alert.alert("Error", response.error);
       }
     };
@@ -43,12 +36,10 @@ const LogIn = () => {
   const handleLoginWithSpotify = async () => {
     if (!request || isAuthenticating) return;
     try {
-      console.log("Prompting Spotify Auth...");
       setIsAuthenticating(true);
       await promptAsync();
       setIsAuthenticating(false);
     } catch (err) {
-      console.log("Prompt async error:", err);
       Alert.alert("Error", err.message);
     }
   };

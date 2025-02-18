@@ -14,7 +14,7 @@ const HorizontalListCard = ({ title, data }) => {
         renderItem={({ item }) => (
           <HorizontalListItem imageUrl={item.imageUrl} artists={item.artists} />
         )}
-      />
+        />
     </View>
   );
 };

@@ -88,9 +88,7 @@ const api = {
         throw new Error("Unexpected response format");
       }
       return response.data;
-    } catch (err) {
-      console.log("Error is here:    nehbciebrvb",err);
-      
+    } catch (err) { 
       throw new Error(err.message);
     }    
   },

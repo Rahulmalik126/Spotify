@@ -4,7 +4,7 @@ import { Tabs } from 'expo-router';
 import { Octicons, Feather, Ionicons } from '@expo/vector-icons';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import GlobalProvider from '../../context/contextProvider';
-import DrawerContent from '../../components/DrawerContent';
+import DrawerContent from '../../components/commonComponents/DrawerContent';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Drawer = createDrawerNavigator();

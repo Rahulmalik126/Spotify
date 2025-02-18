@@ -13,16 +13,14 @@ import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 
-import UserProfilePic from "../../components/UserProfilePic";
+import UserProfilePic from "../../components/commonComponents/UserProfilePic";
 import { useGlobalContext } from "../../context/contextProvider";
-import Category from "../../components/Category";
+import Category from "../../components/commonComponents/Category";
 import { categories } from "../../constants/constants";
-import HorizontalListCards from "../../components/HorizontalListCards";
-import RecentlyPlayed from "../../components/RecentTracks";
-import SectionHead from "../../components/SectionHead";
-import HorizontalListCard from "../../components/HorizontalListCards";
-import { filterNewReleases, structuringNewReleases, structuringTopArtists } from "../../utils/helper";
-import RecentTracks from "../../components/RecentTracks";
+import SectionHead from "../../components/homeComponents/SectionHead";
+import HorizontalListCard from "../../components/homeComponents/HorizontalListCards";
+import { structuringNewReleases, structuringTopArtists } from "../../utils/helper";
+import RecentTracks from "../../components/homeComponents/RecentTracks";
 
 const Home = () => {
   const { userProfile } = useGlobalContext();
@@ -58,9 +56,7 @@ const Home = () => {
 
       } else {
         Alert.alert("Error", "Failed to fetch top artists");
-      }
-      console.log(topArtists);
-      
+      } 
 
       // Handle new releases
       if (newReleasesData.status === "fulfilled" && newReleasesData.value) {
@@ -112,7 +108,7 @@ const Home = () => {
               title={"Recently Played"}
               path={"/screens/allRecentTracks"}
             />
-            {recentTracks.length > 0 && (
+            {recentTracks.length > 0 &&(
               <RecentTracks data={recentTracks} />
             )}
           </View>

@@ -3,12 +3,11 @@ import {
   Text,
   ScrollView,
   SafeAreaView,
-  TouchableOpacity,
-  FlatList,
+  TouchableOpacity
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useGlobalContext } from "../../context/contextProvider";
-import UserProfilePic from "../../components/UserProfilePic";
+import UserProfilePic from "../../components/commonComponents/UserProfilePic";
 import { router, useNavigation } from "expo-router";
 import { DrawerActions } from "@react-navigation/native";
 import Feather from "@expo/vector-icons/Feather";
@@ -24,7 +23,6 @@ const Search = () => {
   useEffect(() => {
     const fetchData = async () => {
       const topTracksData = await api.fetchTopItems("tracks");
-      console.log("CHECK: ", topTracksData);
       // Handle top tracks
       if (topTracksData) {
         setTopTracks(topTracksData.items);

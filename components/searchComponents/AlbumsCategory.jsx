@@ -1,9 +1,7 @@
 import { View, Text, TouchableOpacity, FlatList, Image } from "react-native";
 import React, { useState } from "react";
 
-const Albums = ({ albums }) => {
-  console.log("Printing the albums::==>>", albums);
-
+const AlbumsCategory = ({ albums }) => {
   return (
     <FlatList
       className="mt-5"
@@ -42,4 +40,4 @@ const Albums = ({ albums }) => {
   );
 };
 
-export default Albums;
+export default AlbumsCategory;

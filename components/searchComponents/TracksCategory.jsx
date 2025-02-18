@@ -1,7 +1,7 @@
 import { View, Text, FlatList, Image } from "react-native";
 import React from "react";
 
-const Tracks = ({ tracks }) => {
+const TracksCategory = ({ tracks }) => {
   return (
     <FlatList
       className="mt-5"
@@ -35,4 +35,4 @@ const Tracks = ({ tracks }) => {
   );
 };
 
-export default Tracks;
+export default TracksCategory;

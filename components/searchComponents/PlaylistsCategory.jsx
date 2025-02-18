@@ -2,7 +2,7 @@ import { View, Text, FlatList, Image } from "react-native";
 import React from "react";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
-const Playlists = ({ playlists }) => {
+const PlaylistsCategory = ({ playlists }) => {
   return (
     <FlatList
       className="mt-5"
@@ -51,4 +51,4 @@ const Playlists = ({ playlists }) => {
   );
 };
 
-export default Playlists;
+export default PlaylistsCategory;
