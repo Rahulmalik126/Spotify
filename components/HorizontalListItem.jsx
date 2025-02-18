@@ -3,7 +3,7 @@ import React from "react";
 
 const HorizontalListItem = ({ imageUrl, artists }) => {
   return (
-    <Pressable className="mx-3">
+    <Pressable className="mx-1.5">
       <Image
         source={{ uri: imageUrl }}
         className="w-44 aspect-square rounded-lg"
@@ -11,7 +11,7 @@ const HorizontalListItem = ({ imageUrl, artists }) => {
       <Text
         numberOfLines={2}
         ellipsizeMode="tail"
-        className="text-neutral-400 text-sm w-40 mt-2"
+        className="text-neutral-300 text-sm w-40 mt-2"
       >
         {artists}
       </Text>

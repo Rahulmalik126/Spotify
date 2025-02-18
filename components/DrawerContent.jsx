@@ -40,7 +40,7 @@ const DrawerContent = () => {
                 </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity className="flex flex-row">
+            <TouchableOpacity className="flex flex-row" onPress={()=>router.push("/screens/allRecentTracks")}>
                 <FontAwesome6 name="clock-rotate-left" size={24} color="white" className="p-5 pr-2" />
                 <Text className="p-5 text-white text-lg pl-0 font-bold">
                     Recents

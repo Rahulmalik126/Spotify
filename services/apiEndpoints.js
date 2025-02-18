@@ -15,6 +15,9 @@ export const USER_ENDPOINTS = {
   }
   
   export const TRACKS={
-    GET_RECENT_TRACKS:"/me/player/recently-played?limit=8",
+    GET_RECENT_TRACKS:"/me/player/recently-played",
   }
   
+  export const ARTISTS={
+    GET_TOP_ARTISTS:"/me/top"
+  }

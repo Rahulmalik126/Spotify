@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, TouchableOpacity, ScrollView, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  Pressable,
+  Alert,
+} from "react-native";
 import api from "../../services/api"; // Import the API service
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -9,40 +17,62 @@ import UserProfilePic from "../../components/UserProfilePic";
 import { useGlobalContext } from "../../context/contextProvider";
 import Category from "../../components/Category";
 import { categories } from "../../constants/constants";
+import HorizontalListCards from "../../components/HorizontalListCards";
+import RecentlyPlayed from "../../components/RecentTracks";
+import SectionHead from "../../components/SectionHead";
+import HorizontalListCard from "../../components/HorizontalListCards";
+import { filterNewReleases, structuringNewReleases, structuringTopArtists } from "../../utils/helper";
+import RecentTracks from "../../components/RecentTracks";
 
 const Home = () => {
   const { userProfile } = useGlobalContext();
   const navigation = useNavigation();
   const [activeCategory, setActiveCategory] = useState("All");
-  
+
   const [recentTracks, setRecentTracks] = useState([]);
-  // Fetch featured playlists when the component mounts
+  const [newReleases, setNewReleases] = useState([]);
+  const [topArtists, setTopArtists] = useState([]);
+  const limit = 8;
+  // Fetch recent tracks and new releases when the component mounts
   useEffect(() => {
     const fetchData = async () => {
-      const [recentTracksResult, newReleasesResult] = await Promise.allSettled([
-        api.fetchRecentTracks(),
+      const [recentTracksData, newReleasesData, topArtistData] = await Promise.allSettled([
+        api.fetchRecentTracks(limit),
         api.fetchNewReleases(),
+        api.fetchTopItems("artists")
       ]);
 
       // Handle recent tracks
-      if (recentTracksResult.status === "fulfilled") {
-        setRecentTracks(recentTracksResult.value?.items);
+      if (
+        recentTracksData.status === "fulfilled" &&
+        recentTracksData.value
+      ) {
+        setRecentTracks(recentTracksData.value.items); // assuming recentTracksData.value has the structure { items: [tracks] }
       } else {
         Alert.alert("Error", "Failed to fetch recent tracks");
       }
+
+      //handel top artists
+      if (topArtistData.status === "fulfilled") {
+        setTopArtists(topArtistData.value?.items);
+
+      } else {
+        Alert.alert("Error", "Failed to fetch top artists");
+      }
+      console.log(topArtists);
+      
 
       // Handle new releases
-      if (newReleasesResult.status === "fulfilled") {
-        setNewReleases(newReleasesResult.value?.albums.items);
+      if (newReleasesData.status === "fulfilled" && newReleasesData.value) {
+        setNewReleases(newReleasesData.value.albums.items); // assuming newReleasesData.value has the structure { albums: { items: [albums] } }
       } else {
-        Alert.alert("Error", "Failed to fetch recent tracks");
+        Alert.alert("Error", "Failed to fetch new releases");
       }
     };
-
     fetchData();
   }, []);
 
-   const handleActiveCategory = (category) => {
+  const handleActiveCategory = (category) => {
     setActiveCategory(category);
   };
 
@@ -53,15 +83,15 @@ const Home = () => {
   return (
     <ScrollView>
       <SafeAreaView className="bg-black">
-        <View className="bg-black h-[100vh] flex justify-start w-full ml-4">
+        <View className="bg-black flex h-auto justify-start w-full ml-4">
           {userProfile ? (
-            <View className="flex flex-row items-start bg-black h-full">
+            <View className="flex flex-row items-start bg-black h-auto">
               {userProfile.images && userProfile.images.length > 0 && (
                 <TouchableOpacity onPress={openDrawer}>
                   <UserProfilePic userProfile={userProfile} />
                 </TouchableOpacity>
               )}
-               <View className="flex flex-row gap-3 ml-4">
+              <View className="flex flex-row gap-3 ml-4">
                 {categories.map((category) => (
                   <Category
                     key={category}
@@ -71,17 +101,32 @@ const Home = () => {
                   />
                 ))}
               </View>
-
             </View>
           ) : (
-            <Text
-            className="text-white text-center mt-6"
-              >
+            <Text className="text-white text-center mt-6">
               Loading user profile...
             </Text>
           )}
+          <View className="bg-black h-auto w-full mt-4">
+            <SectionHead
+              title={"Recently Played"}
+              path={"/screens/allRecentTracks"}
+            />
+            {recentTracks.length > 0 && (
+              <RecentTracks data={recentTracks} />
+            )}
+          </View>
+          <View className="bg-black h-auto w-full mb-3">
+            <HorizontalListCard
+              title="Top Artists"
+              data={structuringTopArtists(topArtists)}
+            />
+            <HorizontalListCard
+              title="New Releases"
+              data={structuringNewReleases(newReleases)}
+            />
+          </View>
         </View>
-
         <StatusBar backgroundColor="black" style="light" />
       </SafeAreaView>
     </ScrollView>

@@ -27,7 +27,7 @@ const userProfileScreen = () => {
 
   return (
     <LinearGradient
-    colors={['green', 'black']}
+    colors={['orange', 'black']}
     start={{ x: 0.2, y: 0 }} // Start at the top
     end={{ x: 0.2, y: 0.45 }} // End at the bottom
     className="h-full"

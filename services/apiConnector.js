@@ -13,6 +13,7 @@ export const axiosRequest = async (method, url, bodyData, headers, params) => {
     url: `${baseURL + url}`,
     data: bodyData ? bodyData : null,
     headers: {
+      ...headers,
       Authorization: `Bearer ${accessToken}`,
     },
     params: params ? params : null,

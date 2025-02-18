@@ -12,7 +12,7 @@ const UserProfilePic = ({ userProfile }) => {
   return (
     <Image
       source={{ uri: userProfile?.images[0]?.url }}
-      className="w-[50px] h-[50px] rounded-full border-2 border-white"
+      className="w-[45px] h-[45px] rounded-full border-2 border-white"
     />
   );
 };
