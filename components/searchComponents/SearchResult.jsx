@@ -1,4 +1,4 @@
-import { View, Text, Pressable, Image, ActivityIndicator } from "react-native";
+import { View, Text, Pressable, Image } from "react-native";
 import React, { useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import TracksCategory from "./TracksCategory";
@@ -6,10 +6,10 @@ import AlbumsCategory from "./AlbumsCategory";
 import PlaylistsCategory from "./PlaylistsCategory";
 import ArtistsCategory from "./ArtistsCategory";
 import Category from "../commonComponents/Category";
+import { searchCategories } from "../../constants/constants";
 
 const SearchResult = ({ searchedData }) => {
   const [activeCategory, setActiveCategory] = useState("Tracks");
-  const categories = ["Tracks", "Artists", "Albums", "Playlists"];
 
   const handleActiveCategory = (category) => {
     setActiveCategory(category);
@@ -20,7 +20,7 @@ const SearchResult = ({ searchedData }) => {
       {Object.entries(searchedData).length > 0 ? (
         <View>
           <View className="w-full flex-row justify-between p-2">
-            {categories.map((category) => {
+            {searchCategories.map((category) => {
               const isActive = activeCategory === category;
 
               return (
@@ -48,7 +48,14 @@ const SearchResult = ({ searchedData }) => {
         </View>
       ) : (
         <View className="bg-black h-full w-full flex flex-col mt-40 items-center gap-4">
-          <ActivityIndicator size="large" color="green" />
+          <MaterialCommunityIcons
+            name="emoticon-confused-outline"
+            size={40}
+            color="white"
+          />
+          <Text className="text-white text-2xl font-semibold text-center">
+            No results found,{"\n"} But the music world is vast {"\n"}Try again!
+          </Text>
         </View>
       )}
     </>

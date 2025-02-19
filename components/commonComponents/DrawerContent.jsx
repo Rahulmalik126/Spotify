@@ -15,7 +15,7 @@ const DrawerContent = () => {
         <View className="flex-1 bg-black">
             <TouchableOpacity 
                 onPress={() => router.push(`/screens/userProfileScreen`)} // Use router.push()
-                className="flex flex-row mt-3 ml-3 items-center"
+                className="flex flex-row mt-3 ml-3 pb-3 items-center border-b-[1px] border-gray-500"
             >
                 <UserProfilePic userProfile={userProfile} />
                 <View className="ml-3 flex flex-col items-start justify-start">

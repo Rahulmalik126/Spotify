@@ -12,7 +12,7 @@ const HorizontalListCard = ({ title, data }) => {
         horizontal
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
-          <HorizontalListItem imageUrl={item.imageUrl} artists={item.artists} />
+          <HorizontalListItem title={title} imageUrl={item.imageUrl} artists={item.artists}  itemId={item.id}/>
         )}
         />
     </View>

@@ -5,7 +5,7 @@ const Category = ({ isActive, handlePress, category }) => {
   return (
     <Pressable
       onPress={() => handlePress(category)}
-      className={`transition-all duration-300 rounded-full px-5 py-3 ${
+      className={`transition-all duration-300 rounded-full px-4 py-2 ${
         isActive ? "bg-green" : "bg-[#282828]"
       }`}
     >

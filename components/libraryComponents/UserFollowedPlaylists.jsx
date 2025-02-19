@@ -1,17 +1,17 @@
-import { View, Text, FlatList, Image } from "react-native";
-import React from "react";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { View, Text, FlatList, Image } from 'react-native'
+import React from 'react'
 
-const PlaylistsCategory = ({ playlists }) => {
+const UserFollowedPlaylists = ({userPlaylists}) => {
   return (
-    <FlatList
-      className="mt-1"
-      data={playlists.filter((playlist) => playlist)}
+    <View className="h-auto">
+      <FlatList
+      className="mt-5"
+      data={userPlaylists}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
-        <View className="mb-2 flex-row w-[90%] items-center gap-2 mx-2 my-2 rounded-md p-2">
+        <View className="flex-row w-[90%] items-center gap-2">
           <Image
-            className="w-[55px] h-[55px] rounded-md"
+            className="w-[55px] h-[55px]"
             source={{
               uri: item.images[0]?.url,
             }}
@@ -29,26 +29,20 @@ const PlaylistsCategory = ({ playlists }) => {
                 Playlist
               </Text>
             </View>
-            <MaterialIcons
-              className="align-"
-              name="playlist-add"
-              size={24}
-              color="white"
-              width="30%"
-            />
           </View>
         </View>
       )}
-      contentContainerStyle={{ paddingBottom: 250 }} // Prevent last item from getting cut off
+      ItemSeparatorComponent={<View className="h-3"/>}
       ListEmptyComponent={
         <View className="flex items-center justify-center h-40">
           <Text className="text-white text-lg font-semibold">
-            No Albums Found
+            No Playlists Found
           </Text>
         </View>
       }
     />
-  );
-};
+    </View>
+  )
+}
 
-export default PlaylistsCategory;
+export default UserFollowedPlaylists

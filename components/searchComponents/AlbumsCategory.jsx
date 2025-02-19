@@ -4,7 +4,7 @@ import React, { useState } from "react";
 const AlbumsCategory = ({ albums }) => {
   return (
     <FlatList
-      className="mt-5"
+      className="mt-1"
       data={albums}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (

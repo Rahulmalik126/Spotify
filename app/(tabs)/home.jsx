@@ -16,7 +16,7 @@ import { DrawerActions, useNavigation } from "@react-navigation/native";
 import UserProfilePic from "../../components/commonComponents/UserProfilePic";
 import { useGlobalContext } from "../../context/contextProvider";
 import Category from "../../components/commonComponents/Category";
-import { categories } from "../../constants/constants";
+import { homeCategories } from "../../constants/constants";
 import SectionHead from "../../components/homeComponents/SectionHead";
 import HorizontalListCard from "../../components/homeComponents/HorizontalListCards";
 import { structuringNewReleases, structuringTopArtists } from "../../utils/helper";
@@ -88,7 +88,7 @@ const Home = () => {
                 </TouchableOpacity>
               )}
               <View className="flex flex-row gap-3 ml-4">
-                {categories.map((category) => (
+                {homeCategories.map((category) => (
                   <Category
                     key={category}
                     isActive={activeCategory === category}

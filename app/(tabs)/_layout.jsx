@@ -5,23 +5,19 @@ import { Octicons, Feather, Ionicons } from '@expo/vector-icons';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import GlobalProvider from '../../context/contextProvider';
 import DrawerContent from '../../components/commonComponents/DrawerContent';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Drawer = createDrawerNavigator();
-
-
 
 const TabsLayout = () => {
   return (
     <GlobalProvider>
-
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: 'white',
         tabBarInactiveTintColor: 'gray',
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: 'rgba(0,0,0,0.3)',
+          backgroundColor: 'rgba(0,0,0,0.5)',
           height: 64,
           paddingTop: 5,
           position: 'absolute',
@@ -29,6 +25,7 @@ const TabsLayout = () => {
           left: 0,
           right: 0,
           borderTopWidth: 0,
+          elevation:0
         },
       }}
       >
@@ -91,8 +88,7 @@ const DrawerNavigator = () => {
       drawerLabelStyle: { marginLeft: -25, display:"none" ,height:0},
     }}
     >
-      {/* Main screen with image trigger */}
-      <Drawer.Screen
+     <Drawer.Screen
         name="tabs"
         component={TabsLayout}
         options={{

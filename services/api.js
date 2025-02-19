@@ -2,10 +2,7 @@ import { useAuthRequest, ResponseType } from 'expo-auth-session';
 import { makeRedirectUri } from 'expo-auth-session';
 import { apiConfig } from '../config/index';
 import { axiosRequest } from "./apiConnector";
-import { USER_ENDPOINTS, PLAYLIST, TRACKS, ALBUM_ENDPOINTS, ARTISTS, SEARCH } from "./apiEndpoints";
-
-const { GET_CURRENT_USER, GET_TOP_ITEMS, GET_RECENTLY_PLAYED, } = USER_ENDPOINTS;
-
+import { USER, PLAYLIST, TRACKS, ALBUM, ARTISTS, SEARCH } from "./apiEndpoints";
 
 const api = {
   // Spotify Authentication using OAuth
@@ -38,7 +35,7 @@ const api = {
   // Fetch user profile data using the access token
   fetchUserProfile: async () => {
     try {
-        let response = await axiosRequest("GET", GET_CURRENT_USER, null, null, {});
+        let response = await axiosRequest("GET", USER.GET_USER_PROFILE, null, null, {});
         if (!response?.data) {
           throw new Error("Unexpected response format");
         }
@@ -72,7 +69,7 @@ const api = {
   
   fetchNewReleases:async ()=> {
     try {
-      let response = await axiosRequest("GET", ALBUM_ENDPOINTS.GET_NEW_RELEASES, null, null, {});
+      let response = await axiosRequest("GET", ALBUM.GET_NEW_RELEASES, null, null, {});
       if (!response?.data) {
         throw new Error("Unexpected response format");
       }
@@ -92,7 +89,7 @@ const api = {
       throw new Error(err.message);
     }    
   },
-  getSearchResult: async (query)=>{
+  fetchSearchResult: async (query)=>{
     try {
       const response = await axiosRequest("GET",SEARCH.GET_SEARCHED_DATA,null,null,
         {
@@ -112,10 +109,120 @@ const api = {
       throw new Error("Error in fetching categorized result.");
     }
   
+  },
+  fetchLikedTracks:async ()=>{
+    try {
+      let response = await axiosRequest("GET", USER.GET_LIKED_TRACKS, null, null, {
+        limit: 48,
+      });
+  
+      if (!response?.data) {
+        throw new Error("Unexpected response format");
+      }
+      return response.data?.items;
+    } catch (err) {
+      throw new Error("Error in getting the Liked Songs");
+    }
+  },
+  fetchUserPlaylists:async ()=>{
+    try {
+      let response = await axiosRequest("GET", USER.GET_USER_PLAYLIST, null, null, {
+        limit: 48,
+      });
+  
+      if (!response?.data) {
+        throw new Error("Unexpected response format");
+      }
+      return response.data?.items;
+    } catch (err) {
+      throw new Error("Error in getting the Liked Songs");
+    }
+  
+  },
+  fetchUserFollowedArtists:async ()=>{
+    try {
+      let response = await axiosRequest("GET", USER.GET_USER_FOLLOWED_ARTISTS, null, null, {
+        limit: 48,
+      });
+  
+      if (!response?.data) {
+        throw new Error("Unexpected response format");
+      }
+      
+      return response.data?.artists.items;
+    } catch (err) {
+      throw new Error("Error in getting the Liked Songs");
+    }
+  
+  },
+  fetchArtistInfo:async(artistId)=>{
+    try {
+      const response = await axiosRequest(
+        "GET",
+        ARTISTS.GET_ARTIST_INFO + `/${artistId}`,
+        null,
+        null,
+        {}
+      );
+  
+      if (!response?.data) {
+        throw new Error("Unexpected response format");
+      }
+  
+      return response.data;
+    } catch (err) {
+      throw new Error("Error in fetching Artist top songs.");
+    }
+  },
+  fetchArtistTopSongs:async(artistId)=>{
+    try {
+      const response = await axiosRequest(
+        "GET",
+        ARTISTS.GET_ARTIST_TOP_SONGS + `/${artistId}/top-tracks`,
+        null,
+        null,
+        {
+          limit: 30,
+          offset: 0,
+        }
+      );
+  
+      if (!response?.data) {
+        throw new Error("Unexpected response format");
+      }
+  
+      return response.data;
+    } catch (err) {
+      throw new Error("Error in fetching Artist top songs.");
+    }
+  },
+  fetchArtistAlbums: async(artistId)=>{
+    try {
+      const response = await axiosRequest(
+        "GET",
+        ARTISTS.GET_ARTIST_ALBUMS + `/${artistId}/albums`,
+        null,
+        null,
+        {
+          limit: 10,
+          offset: 0,
+        }
+      );
+  
+      if (!response?.data) {
+        throw new Error("Unexpected response format");
+      }
+  
+      return response.data;
+    } catch (err) {
+      throw new Error("Error in fetching Artist albums.");
+    }
   }
 };
 
 export default api;
+
+
 
 
 

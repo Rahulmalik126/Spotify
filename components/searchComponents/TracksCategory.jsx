@@ -4,7 +4,7 @@ import React from "react";
 const TracksCategory = ({ tracks }) => {
   return (
     <FlatList
-      className="mt-5"
+      className="mt-1"
       data={tracks}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (

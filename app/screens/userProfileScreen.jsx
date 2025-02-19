@@ -10,6 +10,7 @@ import { router } from 'expo-router'
 
 const userProfileScreen = () => {
   const [userProfile,setUserProfile]=useState(null);
+  const [following, setFollowing]=useState(0);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -20,13 +21,21 @@ const userProfileScreen = () => {
         Alert.alert('Error fetching profile:', error);
       }
     };
-
+    const fetchFollowing = async ()=>{
+      try {
+        const followingData = await api.fetchUserFollowedArtists();
+        setFollowing(followingData.length);
+      } catch (error) {
+        Alert.alert('Error fetching user following:', error);
+      }
+    }
     fetchProfile();
+    fetchFollowing();
   }, []);
 
   return (
     <LinearGradient
-    colors={['orange', 'black']}
+    colors={['brown', 'black']}
     start={{ x: 0.2, y: 0 }} // Start at the top
     end={{ x: 0.2, y: 0.45 }} // End at the bottom
     className="h-full"
@@ -44,7 +53,9 @@ const userProfileScreen = () => {
       <Text className="text-white text-2xl font-bold">{userProfile?.display_name}</Text>
       <View className="flex flex-row">
       <Text className="text-white text-base font-bold">{userProfile?.followers.total}</Text>
-      <Text className="text-gray-300 text-base font-light"> followers</Text>
+      <Text className="text-gray-300 text-base font-light">follower•</Text>
+      <Text className="text-white text-base font-bold">{following}</Text>
+      <Text className="text-gray-300 text-base font-light">following</Text>
       </View>
     </View>
       </View>

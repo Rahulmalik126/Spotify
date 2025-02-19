@@ -2,7 +2,6 @@ import {
   View,
   Text,
   ScrollView,
-  SafeAreaView,
   TouchableOpacity
 } from "react-native";
 import React, { useEffect, useState } from "react";
@@ -13,7 +12,8 @@ import { DrawerActions } from "@react-navigation/native";
 import Feather from "@expo/vector-icons/Feather";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import api from "../../services/api";
-import TopTracks from "../../components/TopTracks";
+import TopTracks from "../../components/searchComponents/TopTracks";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const Search = () => {
   const { userProfile } = useGlobalContext();
@@ -43,7 +43,7 @@ const Search = () => {
       <SafeAreaView className="bg-black">
         <View className="bg-black flex h-auto justify-start w-full ml-2">
           {userProfile ? (
-            <View className="flex flex-row items-center bg-black h-auto mt-6">
+            <View className="flex flex-row items-center bg-black h-auto">
               {userProfile.images && userProfile.images.length > 0 && (
                 <TouchableOpacity onPress={openDrawer} className="ml-2">
                   <UserProfilePic userProfile={userProfile} />
