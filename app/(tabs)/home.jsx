@@ -37,7 +37,7 @@ const Home = () => {
         api.fetchNewReleases(),
         api.fetchTopItems("artists"),
       ]);
-      
+
       setRefreshing(false);
 
     // Handle recent tracks
@@ -162,21 +162,14 @@ const Home = () => {
             )}
             {activeCategory === "Artists" && (
               <>
-                <View className="bg-black h-auto w-full mt-4">
-                  <SectionHead
-                    title={"Recently Played"}
-                    path={"/screens/allRecentTracks"}
-                  />
-                  {recentTracks.length > 0 ? (
-                    <RecentTracks data={recentTracks} />
-                  ) : (
-                    <Loader />
-                  )}
-                </View>
                 <View className="bg-black h-auto w-full mb-3">
                   <HorizontalListCard
                     title="Top Artists"
                     data={structuringTopArtists(topArtists)}
+                  />
+                  <HorizontalListCard
+                    title="New Releases"
+                    data={structuringNewReleases(newReleases)}
                   />
                 </View>
               </>
