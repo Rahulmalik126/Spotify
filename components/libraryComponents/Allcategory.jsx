@@ -1,15 +1,13 @@
 import React from "react";
-import { FlatList, View, Text, Image, TouchableOpacity } from "react-native";
-import { AntDesign, MaterialIcons } from "@expo/vector-icons";
-import { LinearGradient } from "expo-linear-gradient";
-import { useRouter } from "expo-router";  // Importing the useRouter hook
-import { StatusBar } from "expo-status-bar";
-import UserProfilePic from "../../components/commonComponents/UserProfilePic";
-import LikedTracksButton from "../../components/libraryComponents/LikedTracksButton";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { FlatList, View, Text, Image, TouchableOpacity, RefreshControl } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-const Allcategory = ({ likedTracks, userPlaylists, followedArtists }) => {
-  const router = useRouter(); // Use router hook to handle navigation
+import LikedTracksButton from "../../components/libraryComponents/LikedTracksButton";
+import PlaylistFollowButton from "../searchComponents/PlaylistFollowButton";
+import Loader from "../commonComponents/Loader";
+
+const Allcategory = ({ likedTracks, userPlaylists, followedArtists,refreshing,onRefresh }) => {
+  const navigation = useNavigation();
 
   const combinedData = [
     { type: "likedTracks", data: likedTracks },
@@ -27,30 +25,61 @@ const Allcategory = ({ likedTracks, userPlaylists, followedArtists }) => {
             </View>
             {likedTracks.length > 0 ? (
               likedTracks.map((track, index) => (
-                <View key={index} className="flex flex-row items-center gap-2">
-                  <Image source={{ uri: track.track.album.images[0].url }} className="h-[55px] w-[55px]" />
+                <TouchableOpacity
+                  key={index}
+                  onPress={() =>
+                    navigation.navigate("SongsInfoScreen", {
+                      trackId: track?.track?.id,
+                    })
+                  }
+                  className="flex flex-row items-center gap-2"
+                >
+                  <Image
+                    source={{ uri: track.track.album.images[0].url }}
+                    className="h-[55px] w-[55px]"
+                  />
                   <View className="flex flex-col items-start">
-                    <Text className="text-white font-semibold">{track.track.name}</Text>
-                    <Text className="text-white text-sm">{track.track.artists.map((artist) => artist.name).join(", ")}</Text>
+                    <Text className="text-white font-semibold">
+                      {track.track.name}
+                    </Text>
+                    <Text className="text-white text-sm">
+                      {track.track.artists
+                        .map((artist) => artist.name)
+                        .join(", ")}
+                    </Text>
                   </View>
-                </View>
+                </TouchableOpacity>
               ))
             ) : (
-              <Text className="text-white text-center mt-6">No recent tracks available</Text>
+              <Loader />
             )}
           </View>
         );
       case "playlists":
         return (
-          <View className="flex flex-col gap-3">
+          <View className="flex flex-col gap-3 w-[100%]">
             {userPlaylists.map((playlist, index) => (
-              <View key={index} className="flex-row items-center gap-2">
-                <Image source={{ uri: playlist.images[0]?.url }} className="w-[55px] h-[55px]" />
+              <TouchableOpacity
+                key={index}
+                onPress={() =>
+                  navigation.navigate("PlaylistScreen", {
+                    playlistId: playlist?.id,
+                  })
+                }
+                className="flex-row items-center gap-2 w-[90%]"
+              >
+                <Image
+                  source={{ uri: playlist.images[0]?.url }}
+                  className="w-[55px] h-[55px]"
+                />
                 <View className="flex flex-col">
                   <Text className="text-white text-xl">{playlist.name}</Text>
                   <Text className="text-gray-400 text-sm">Playlist</Text>
                 </View>
-              </View>
+                <View className="ml-40">
+                  <PlaylistFollowButton playlistId={playlist?.id} />
+                </View>
+              </TouchableOpacity>
             ))}
           </View>
         );
@@ -58,15 +87,25 @@ const Allcategory = ({ likedTracks, userPlaylists, followedArtists }) => {
         return (
           <View className="flex flex-col gap-3">
             {followedArtists.map((artist, index) => (
-              <View key={index} className="flex-row items-center gap-2">
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("ArtistProfileScreen", {
+                    itemId: artist?.id,
+                  })
+                }
+                key={index}
+                className="flex-row items-center gap-2"
+              >
                 <Image
                   source={{
-                    uri: artist.images[0]?.url || `https://dummyimage.com/600x400/b839b8/000000.png&text=${artist.name[0]}`,
+                    uri:
+                      artist.images[0]?.url ||
+                      `https://dummyimage.com/600x400/b839b8/000000.png&text=${artist.name[0]}`,
                   }}
                   className="w-[55px] h-[55px] rounded-full"
                 />
                 <Text className="text-white text-xl">{artist.name}</Text>
-              </View>
+              </TouchableOpacity>
             ))}
           </View>
         );
@@ -83,7 +122,10 @@ const Allcategory = ({ likedTracks, userPlaylists, followedArtists }) => {
         keyExtractor={(item, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         ItemSeparatorComponent={<View className="h-3" />}
-        contentContainerStyle={{paddingBottom:200}}
+        contentContainerStyle={{ paddingBottom: 200 }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
     </View>
   );

@@ -1,9 +1,12 @@
-import { Text, Pressable, Image, View } from "react-native";
+import { Text, Image, View, TouchableOpacity } from "react-native";
 import React from "react";
 
-const TopTracks = ({ name, imageUrl ,artists}) => {
+import { useNavigation } from "@react-navigation/native";
+
+const TopTracks = ({ trackId, name, imageUrl ,artists}) => {
+  const navigation=useNavigation();
   return (
-    <Pressable className="bg-[#282828] w-full flex flex-row gap-2 items-center rounded-lg p-1">
+    <TouchableOpacity onPress={()=>navigation.navigate("SongsInfoScreen",{trackId:trackId})} className="bg-[#282828] w-full flex flex-row gap-2 items-center rounded-lg p-1">
       <Image
         source={{ uri: imageUrl }}
         className="h-14 rounded-lg aspect-square"
@@ -18,7 +21,7 @@ const TopTracks = ({ name, imageUrl ,artists}) => {
       </Text>
       <Text numberOfLines={1} ellipsizeMode="tail" className="text-white text-sm w-[100px]">{artists.map((artist)=>artist.name).join(", ")}</Text>
         </View>
-    </Pressable>
+    </TouchableOpacity>
   );
 };
 

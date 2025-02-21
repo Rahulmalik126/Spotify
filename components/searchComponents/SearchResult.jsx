@@ -1,6 +1,6 @@
-import { View, Text, Pressable, Image } from "react-native";
+import { View, Text } from "react-native";
 import React, { useState } from "react";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+
 import TracksCategory from "./TracksCategory";
 import AlbumsCategory from "./AlbumsCategory";
 import PlaylistsCategory from "./PlaylistsCategory";
@@ -48,13 +48,8 @@ const SearchResult = ({ searchedData }) => {
         </View>
       ) : (
         <View className="bg-black h-full w-full flex flex-col mt-40 items-center gap-4">
-          <MaterialCommunityIcons
-            name="emoticon-confused-outline"
-            size={40}
-            color="white"
-          />
-          <Text className="text-white text-2xl font-semibold text-center">
-            No results found,{"\n"} But the music world is vast {"\n"}Try again!
+          <Text className="text-white text-2xl font-semibold text-center w-[70%]">
+            Let's see what are you Searching for?
           </Text>
         </View>
       )}

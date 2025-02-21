@@ -1,25 +1,31 @@
-import { View, Text, FlatList, Image } from "react-native";
+import { View, Text, FlatList, Image, TouchableOpacity } from "react-native";
 import React from "react";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { useNavigation } from "@react-navigation/native";
+
+import PlaylistFollowButton from "./PlaylistFollowButton";
 
 const PlaylistsCategory = ({ playlists }) => {
+  const navigation=useNavigation();
+  
   return (
     <FlatList
       className="mt-1"
       data={playlists.filter((playlist) => playlist)}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
-        <View className="mb-2 flex-row w-[90%] items-center gap-2 mx-2 my-2 rounded-md p-2">
+
+        <TouchableOpacity onPress={()=>navigation.navigate("PlaylistScreen",{playlistId: item.id})} className="mb-2 flex-row w-[90%] items-center gap-2 mx-2 my-2 rounded-md p-2">
           <Image
             className="w-[55px] h-[55px] rounded-md"
             source={{
               uri: item.images[0]?.url,
             }}
           />
+
           <View
-            className="flex-row justify-between items-center w-[100%]"
+            className="flex-row justify-between items-center w-[350px]"
           >
-            <View className="flex flex-col">
+            <View className="flex flex-col mr-5">
               <Text numberOfLines={1} ellipsizeMode="tail" className="text-white text-xl pl-2 font-bold w-[180px]">
                 {item?.name}
               </Text>
@@ -29,15 +35,9 @@ const PlaylistsCategory = ({ playlists }) => {
                 Playlist
               </Text>
             </View>
-            <MaterialIcons
-              className="align-"
-              name="playlist-add"
-              size={24}
-              color="white"
-              width="30%"
-            />
-          </View>
-        </View>
+        <PlaylistFollowButton playlistId={item.id}/>
+                  </View>
+        </TouchableOpacity >
       )}
       contentContainerStyle={{ paddingBottom: 250 }} // Prevent last item from getting cut off
       ListEmptyComponent={

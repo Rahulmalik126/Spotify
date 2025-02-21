@@ -6,8 +6,8 @@ export const axiosInstance = axios.create({});
 const baseURL = apiConfig.baseUrl;
 
 export const axiosRequest = async (method, url, bodyData, headers, params) => {
-  const accessToken = await AsyncStorage.getItem('accessToken');
-  
+  const accessToken = await AsyncStorage.getItem("accessToken");
+
   return axiosInstance({
     method: `${method}`,
     url: `${baseURL + url}`,
@@ -19,4 +19,3 @@ export const axiosRequest = async (method, url, bodyData, headers, params) => {
     params: params ? params : null,
   });
 };
-

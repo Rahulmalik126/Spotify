@@ -1,13 +1,15 @@
-import { View, Text, Pressable, FlatList, Image } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import api from '../../services/api';
-import { AntDesign } from "@expo/vector-icons";
+import { View, Text, FlatList, Image, TouchableOpacity, RefreshControl } from 'react-native'
+import React from 'react'
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
+import Loader from '../commonComponents/Loader';
 
-const UserLikedTracks = ({likedTracks}) => { 
+const UserLikedTracks = ({likedTracks,onRefresh,refreshing}) => { 
+  const navigation=useNavigation();
+
   const renderItem = ({ item }) => {
     return (
+      <TouchableOpacity onPress={()=> navigation.navigate("SongsInfoScreen",{trackId: item?.track?.id})}>
       <View className="items-center flex flex-row w-[100%] h-auto rounded-xl gap-2">
         <Image
           source={{ uri: item.track.album.images[0].url }}
@@ -24,24 +26,25 @@ const UserLikedTracks = ({likedTracks}) => {
         <Text className="text-white text-sm font-semibold text-center">{item.track.artists.map((artist)=>artist.name).join(", ")}</Text>
           </View>
       </View>
+          </TouchableOpacity>
     );
   };
 
   return (
    
    <View>
-      {likedTracks.length > 0 ? (
           <FlatList
             data={likedTracks.reverse()}
             className="mt-5"
             renderItem={renderItem}
             keyExtractor={(item) => item.track.id.toString()}
             contentContainerStyle={{ paddingBottom: 60 ,}}
-            ItemSeparatorComponent={() => <View className="h-3"
-          />}/>
-        ) : (
-          <Text className="text-white text-center mt-6">No recent tracks available</Text>
-        )}
+            ItemSeparatorComponent={() => <View className="h-3"/>}
+            ListEmptyComponent={<Loader/>}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+            />
       <StatusBar backgroundColor="black" style="light" />
     </View>
   )

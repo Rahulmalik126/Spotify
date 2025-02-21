@@ -1,67 +1,81 @@
-import { View, Text, TouchableOpacity, Pressable } from "react-native";
-import React, { useEffect, useState } from "react";
-import { useGlobalContext } from "../../context/contextProvider";
+import { View, Text, TouchableOpacity } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigation } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { DrawerActions } from "@react-navigation/native";
+
+import { useGlobalContext } from "../../context/contextProvider";
 import UserProfilePic from "../../components/commonComponents/UserProfilePic";
 import Category from "../../components/commonComponents/Category";
 import { libraryCategories } from "../../constants/constants";
-import { SafeAreaView } from "react-native-safe-area-context";
 import UserLikedTracks from "../../components/libraryComponents/UserLikedTracks";
 import UserFollowedPlaylists from "../../components/libraryComponents/UserFollowedPlaylists";
 import UserFollowedArtists from "../../components/libraryComponents/UserFollowedArtists";
-import { DrawerActions } from "@react-navigation/native";
-import { LinearGradient } from "expo-linear-gradient";
-import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import api from "../../services/api";
-import LikedTracksButton from "../../components/libraryComponents/LikedTracksButton";
 import Allcategory from "../../components/libraryComponents/Allcategory";
 
 const Library = () => {
   const { userProfile } = useGlobalContext();
+
   const [activeCategory, setActiveCategory] = useState("All");
   const [likedTracks, setLikedTracks] = useState([]);
   const [userPlaylists, setUserPlaylists] = useState([]);
   const [followedArtists, setFollowedArtists] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+
   const navigation = useNavigation();
 
+  // Function to open the Drawer Navigator
   const openDrawer = () => {
     navigation.dispatch(DrawerActions.openDrawer());
   };
 
+  //Function to Handle Active Category
   const handleActiveCategory = (category) => {
     setActiveCategory(category);
   };
+
+  const fetchData = async () => {
+    const [likedTracksData, userPlaylistsData, userFollowedArtistsData] =
+      await Promise.allSettled([
+        api.fetchLikedTracks(),
+        api.fetchUserPlaylists(),
+        api.fetchUserFollowedArtists(),
+      ]);
+
+    setRefreshing(false);
+
+    // Handle liked tracks
+    if (likedTracksData.status === "fulfilled" && likedTracksData.value) {
+      setLikedTracks(likedTracksData.value); // assuming likedTracksData.value has the structure { items: [tracks] }
+    } else {
+      Alert.alert("Error", "Failed to fetch recent tracks");
+    }
+
+    //Handle followed artists
+    if (userFollowedArtistsData.status === "fulfilled") {
+      setFollowedArtists(userFollowedArtistsData.value);
+    } else {
+      Alert.alert("Error", "Failed to fetch top artists");
+    }
+
+    // Handle new Playlists
+    if (userPlaylistsData.status === "fulfilled" && userPlaylistsData.value) {
+      setUserPlaylists(userPlaylistsData.value); // assuming userPlaylistsData.value has the structure { albums: { items: [albums] } }
+    } else {
+      Alert.alert("Error", "Failed to fetch new releases");
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const [likedTracksData, userPlaylistsData, userFollowedArtistsData] =
-        await Promise.allSettled([
-          api.fetchLikedTracks(),
-          api.fetchUserPlaylists(),
-          api.fetchUserFollowedArtists(),
-        ]);
-
-      // Handle recent tracks
-      if (likedTracksData.status === "fulfilled" && likedTracksData.value) {
-        setLikedTracks(likedTracksData.value); // assuming likedTracksData.value has the structure { items: [tracks] }
-      } else {
-        Alert.alert("Error", "Failed to fetch recent tracks");
-      }
-
-      //handel top artists
-      if (userFollowedArtistsData.status === "fulfilled") {
-        setFollowedArtists(userFollowedArtistsData.value);
-      } else {
-        Alert.alert("Error", "Failed to fetch top artists");
-      }
-
-      // Handle new releases
-      if (userPlaylistsData.status === "fulfilled" && userPlaylistsData.value) {
-        setUserPlaylists(userPlaylistsData.value); // assuming userPlaylistsData.value has the structure { albums: { items: [albums] } }
-      } else {
-        Alert.alert("Error", "Failed to fetch new releases");
-      }
-    };
     fetchData();
+  }, []);
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      fetchData();
+    }, 1000);
   }, []);
 
   return (
@@ -91,23 +105,39 @@ const Library = () => {
                 ))}
               </View>
               {activeCategory === "All" && (
-                <View className="h-[100vh]">
+                <View className="h-[100vh] ml-1">
                   <Allcategory
                     likedTracks={likedTracks}
                     userPlaylists={userPlaylists}
                     followedArtists={followedArtists}
+                    onRefresh={onRefresh}
+                    refreshing={refreshing}
                   />
                 </View>
               )}
-              {activeCategory === "Tracks" && (
-                <UserLikedTracks likedTracks={likedTracks} />
-              )}
-              {activeCategory === "Playlists" && (
-                <UserFollowedPlaylists userPlaylists={userPlaylists} />
-              )}
-              {activeCategory === "Artists" && (
-                <UserFollowedArtists followedArtists={followedArtists} />
-              )}
+              <View className="ml-1">
+                {activeCategory === "Tracks" && (
+                  <UserLikedTracks
+                    likedTracks={likedTracks}
+                    onRefresh={onRefresh}
+                    refreshing={refreshing}
+                  />
+                )}
+                {activeCategory === "Playlists" && (
+                  <UserFollowedPlaylists
+                    userPlaylists={userPlaylists}
+                    onRefresh={onRefresh}
+                    refreshing={refreshing}
+                  />
+                )}
+                {activeCategory === "Artists" && (
+                  <UserFollowedArtists
+                    followedArtists={followedArtists}
+                    onRefresh={onRefresh}
+                    refreshing={refreshing}
+                  />
+                )}
+              </View>
             </View>
           ) : (
             <Text className="text-white text-center mt-6">

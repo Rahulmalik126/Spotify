@@ -1,19 +1,15 @@
-import { View, Text, TouchableOpacity } from 'react-native';
-import React from 'react';
-import { LinearGradient } from 'expo-linear-gradient';
-import { AntDesign, MaterialIcons } from '@expo/vector-icons';
-import { router, useNavigation, useRouter } from 'expo-router';
+import { View, Text, TouchableOpacity } from "react-native";
+import React from "react";
+import { LinearGradient } from "expo-linear-gradient";
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const LikedTracksButton = ({ likedTracks }) => {
-  const router = useRouter();
-  
-  const handleNavigateToLikedTracks = () => {
-    router.push({
-      pathname: '/screens/allLikedSongs'  // Pass the likedTracks as a query
-    })}
+  const navigation = useNavigation();
+
   return (
     <TouchableOpacity
-      onPress={handleNavigateToLikedTracks} // Use navigate correctly
+      onPress={() => navigation.navigate("AllLikedSongs")}
       className="flex w-[90%] h-[55px] flex-row items-center"
     >
       <LinearGradient
