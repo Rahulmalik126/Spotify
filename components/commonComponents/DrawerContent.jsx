@@ -4,13 +4,22 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { useNavigation } from "@react-navigation/native";
+import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import UserProfilePic from "./UserProfilePic";
 import { useGlobalContext } from "../../context/contextProvider";
+import { router } from "expo-router";
 
 const DrawerContent = () => {
   const { userProfile } = useGlobalContext();
   const navigation = useNavigation();
+
+  const handleLogOut = async () => {
+    await AsyncStorage.removeItem("accessToken");
+    await AsyncStorage.removeItem("expirationDate");
+    router.back();
+  };
 
   return (
     <View className="flex-1 bg-black">
@@ -76,6 +85,18 @@ const DrawerContent = () => {
         <Text className="p-5 text-white text-lg pl-0 font-bold">
           Settings and Privacy
         </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={handleLogOut}
+        className="flex flex-row mt-3 items-center"
+      >
+        <SimpleLineIcons
+          name="logout"
+          size={20}
+          color="red"
+          className="p-5 pr-3"
+        />
+        <Text className="p-5 text-white text-lg pl-0 font-bold">Log Out</Text>
       </TouchableOpacity>
     </View>
   );

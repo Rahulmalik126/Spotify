@@ -6,7 +6,7 @@ import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function Page() {
+const Page=()=> {
   useEffect(() => {
     const checkTokenValidity = async () => {
       const accessToken = await AsyncStorage.getItem("accessToken");
@@ -57,3 +57,5 @@ export default function Page() {
     </LinearGradient>
   );
 }
+
+export default Page;

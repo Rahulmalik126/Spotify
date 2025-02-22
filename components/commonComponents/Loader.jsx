@@ -3,7 +3,7 @@ import React from "react";
 
 const Loader = () => {
   return (
-    <View className="h-40 w-[100vw] flex-row justify-center items-center">
+    <View className="h-40 w-[80vw] flex-row justify-center items-center">
       <ActivityIndicator size="large" color="green" />
     </View>
   );
