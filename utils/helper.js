@@ -1,4 +1,5 @@
 import { gradientColors } from "../constants/constants";
+import * as Localization from "expo-localization";
 
 export const filterNewRecentTracks = (prevTracks, recentTracksAll) => {
   const newTracks = [...prevTracks];
@@ -40,3 +41,13 @@ export function getRandomColor() {
   const randomIndex = Math.floor(Math.random() * gradientColors.length);
   return gradientColors[randomIndex];
 }
+
+export const detectUserLanguage = () => {
+  const deviceLang = Localization.locale.split("-")[0];
+  const supportedLanguages = ["en", "hi", "de","fr"];
+
+  if (supportedLanguages.includes(deviceLang)) {
+    return deviceLang;
+  }
+  return "en";
+};

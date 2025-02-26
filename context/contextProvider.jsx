@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { Alert } from "react-native";
 
 import api from "../services/api";
+import { detectUserLanguage } from "../utils/helper";
 
 const GlobalContext = createContext();
 export const useGlobalContext = () => useContext(GlobalContext);
@@ -12,6 +13,7 @@ const GlobalProvider = ({ children }) => {
   const [followedPlaylists, setFollowedPlaylists] = useState([]);
   const [followedArtists, setFollowedArtists] = useState([]);
   const [language, setLanguage]=useState({});
+  const [code,setCode] =useState(detectUserLanguage());
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -50,7 +52,7 @@ const GlobalProvider = ({ children }) => {
       }
     };
     const fetchTranslationLanguage=async () =>{
-      const languageData=await api.fetchTranslation("de");
+      const languageData=await api.fetchTranslation(code);
       setLanguage(languageData);
     }
 

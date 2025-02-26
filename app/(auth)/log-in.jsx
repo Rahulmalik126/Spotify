@@ -14,11 +14,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StatusBar } from "expo-status-bar";
 
 import api from "../../services/api"; 
+import { useLanguageContext } from "../../index";
 
 const LogIn = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   const { request, response, promptAsync } = api.useSpotifyAuth(); // Use the custom API service
+
+  const { language } = useLanguageContext();
 
 
   useEffect(() => {
@@ -66,7 +69,7 @@ const LogIn = () => {
             color="white"
           />
           <Text className="text-white text-[35px] font-bold text-center mt-2 flex justify-center items-center">
-            Log in to Spotify
+            {language.LogInPageHead}
           </Text>
         </View>
 
@@ -76,14 +79,14 @@ const LogIn = () => {
           onPress={handleLoginWithSpotify}
         >
           <Text className="text-black font-bold text-lg">
-            Log in with Spotify
+            {language.LogInPageOption1}
           </Text>
         </Pressable>
 
         <Pressable className="bg-[#131624] h-14 mx-auto w-[85vw] w-75 rounded-full items-center justify-center flex-row align-items-center my-2 border-[#C0C0C0] border-[0.8px]">
           <MaterialIcons name="phone-android" size={24} color="white" />
           <Text className="text-white font-medium text-center text-lg w-[80%]">
-            Continue with Phone Number
+          {language.LogInPageOption2}
           </Text>
         </Pressable>
 
@@ -95,7 +98,7 @@ const LogIn = () => {
             className="w-7 h-7"
           />
           <Text className="text-white font-medium text-center text-lg w-[80%]">
-            Continue with Google
+          {language.LogInPageOption3}
           </Text>
         </Pressable>
 
@@ -107,16 +110,16 @@ const LogIn = () => {
             className="w-7 h-7"
           />
           <Text className="text-white font-medium text-center text-lg w-[80%]">
-            Sign In with Facebook
+          {language.LogInPageOption4}
           </Text>
         </Pressable>
 
         <View className="flex justify-center items-center gap-2 mt-5">
           <Text className="text-white text-lg font-normal">
-            Don't have an account?
+          {language.LogInPageText1}
           </Text>
           <TouchableOpacity onPress={() => router.push("./sign-up")}>
-            <Text className="text-white text-xl font-bold">Sign up</Text>
+            <Text className="text-white text-xl font-bold">{language.LogInPageNavigateText}</Text>
           </TouchableOpacity>
         </View>
         <StatusBar backgroundColor="black" style="light" />
