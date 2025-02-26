@@ -83,6 +83,16 @@ This project is a React Native Spotify clone application that allows users to au
 <img src="./screenshots/Recently1.jpg" width="200"/>
 </p>
 
+### 8. **Multiple Languages Feature**
+- Language will be selected according to the user's default selection on Phone.
+
+<p float="left">
+<img src="./screenshots/Lang1.jpg" width="200" style="margin-right: 10px;"/>
+<img src="./screenshots/Lang2.jpg" width="200" style="margin-right: 10px;"/>
+<img src="./screenshots/Lang3.jpg" width="200" style="margin-right: 10px;"/>
+<img src="./screenshots/Lang4.jpg" width="200"/>
+</p>
+
 ## Tech Stack
 - **Frontend**: React-Native.
 - **Authentication**: Spotify OAuth 2.0.
