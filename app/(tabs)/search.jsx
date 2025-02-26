@@ -12,7 +12,7 @@ import TopTracks from "../../components/searchComponents/TopTracks";
 import Loader from "../../components/commonComponents/Loader";
 
 const Search = () => {
-  const { userProfile } = useGlobalContext();
+  const { userProfile, language } = useGlobalContext();
 
   const [topTracks, setTopTracks] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
@@ -65,7 +65,7 @@ const Search = () => {
                 )}
                 <View className="flex flex-row w-[75%] justify-between items-center">
                   <Text className="text-white text-3xl font-bold ml-4">
-                    Search
+                    {language?.SearchPageHead1}
                   </Text>
                   <Feather name="camera" size={24} color="white" />
                 </View>
@@ -82,12 +82,12 @@ const Search = () => {
               >
                 <AntDesign name="search1" size={24} color="black" />
                 <Text className="font-normal ml-1 text-#adacac">
-                  What do you want to listen to?
+                  {language?.SearchPageInputPlaceHolder}
                 </Text>
               </TouchableOpacity>
             </View>
             <View className="flex flex-col justify-center mt-4 ml-2">
-              <Text className=" text-white text-2xl font-bold">Top Tracks</Text>
+              <Text className=" text-white text-2xl font-bold">{language?.SearchPageHead2}</Text>
               <View className="flex flex-row flex-wrap justify-between w-[95%] gap-2">
                 {topTracks && topTracks.length > 0 ? (
                   topTracks.map((item) => (

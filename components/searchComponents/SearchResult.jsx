@@ -1,5 +1,5 @@
 import { View, Text } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import TracksCategory from "./TracksCategory";
 import AlbumsCategory from "./AlbumsCategory";
@@ -8,8 +8,12 @@ import ArtistsCategory from "./ArtistsCategory";
 import Category from "../commonComponents/Category";
 import { searchCategories } from "../../constants/constants";
 
-const SearchResult = ({ searchedData }) => {
-  const [activeCategory, setActiveCategory] = useState("Tracks");
+const SearchResult = ({ searchedData , language}) => {
+  const [activeCategory, setActiveCategory] = useState(language?.SearchBarPageResultCategories?.[0]);
+
+  useEffect(()=>{
+    setActiveCategory(language?.SearchBarPageResultCategories?.[0])
+  },[language])
 
   const handleActiveCategory = (category) => {
     setActiveCategory(category);
@@ -20,7 +24,7 @@ const SearchResult = ({ searchedData }) => {
       {Object.entries(searchedData).length > 0 ? (
         <View>
           <View className="w-full flex-row justify-between p-2">
-            {searchCategories.map((category) => {
+            {language?.SearchBarPageResultCategories?.map((category) => {
               const isActive = activeCategory === category;
 
               return (
@@ -33,23 +37,23 @@ const SearchResult = ({ searchedData }) => {
               );
             })}
           </View>
-          {activeCategory === "Tracks" && (
+          {activeCategory === language?.SearchBarPageResultCategories?.[0] && (
             <TracksCategory tracks={searchedData?.tracks?.items} />
           )}
-          {activeCategory === "Albums" && (
+          {activeCategory === language?.SearchBarPageResultCategories?.[1]  && (
             <AlbumsCategory albums={searchedData?.albums?.items} />
           )}
-          {activeCategory === "Playlists" && (
+          {activeCategory === language?.SearchBarPageResultCategories?.[2]  && (
             <PlaylistsCategory playlists={searchedData?.playlists?.items} />
           )}
-          {activeCategory === "Artists" && (
+          {activeCategory === language?.SearchBarPageResultCategories?.[3]  && (
             <ArtistsCategory artists={searchedData?.artists?.items} />
           )}
         </View>
       ) : (
         <View className="bg-black h-full w-full flex flex-col mt-40 items-center gap-4">
           <Text className="text-white text-2xl font-semibold text-center w-[70%]">
-            Let's see what are you Searching for?
+            {language.SearchBarPageResultText}
           </Text>
         </View>
       )}

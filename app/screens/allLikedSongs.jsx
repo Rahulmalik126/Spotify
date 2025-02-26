@@ -13,9 +13,11 @@ import { useNavigation } from "@react-navigation/native";
 
 import api from "../../services/api";
 import UserLikedTracks from "../../components/libraryComponents/UserLikedTracks";
+import { useGlobalContext } from "../../context/contextProvider";
 
 const AllLikedSongs = () => {
   const [likedSongs, setLikedSongs] = useState([]);
+  const {language}=useGlobalContext();
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -50,11 +52,11 @@ const AllLikedSongs = () => {
             />
           </TouchableOpacity>
           <Text className="text-white font-bold text-3xl ml-5">
-            Liked Songs
+            {language?.LikedPageHead}
           </Text>
           <View className="flex flex-row w-[90%] justify-between">
             <Text className="text-gray-400 ml-5">
-              {likedSongs.length} songs
+              {likedSongs.length} {language?.LikedPageText1}
             </Text>
             <AntDesign name="play" size={50} color="#1dd661" />
           </View>

@@ -6,7 +6,7 @@ import LikedTracksButton from "../../components/libraryComponents/LikedTracksBut
 import PlaylistFollowButton from "../searchComponents/PlaylistFollowButton";
 import Loader from "../commonComponents/Loader";
 
-const Allcategory = ({ likedTracks, userPlaylists, followedArtists,refreshing,onRefresh }) => {
+const Allcategory = ({ likedTracks, userPlaylists, followedArtists,refreshing,onRefresh , language}) => {
   const navigation = useNavigation();
 
   const combinedData = [
@@ -21,7 +21,7 @@ const Allcategory = ({ likedTracks, userPlaylists, followedArtists,refreshing,on
         return (
           <View className="flex flex-col gap-3">
             <View className="mb-2">
-              <LikedTracksButton likedTracks={likedTracks} />
+              <LikedTracksButton likedTracks={likedTracks} language={language} />
             </View>
             {likedTracks.length > 0 ? (
               likedTracks.map((track, index) => (

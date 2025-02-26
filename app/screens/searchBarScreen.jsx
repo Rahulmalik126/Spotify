@@ -12,10 +12,12 @@ import { useNavigation } from "@react-navigation/native";
 
 import SearchResult from "../../components/searchComponents/SearchResult";
 import api from "../../services/api";
+import { useGlobalContext } from "../../context/contextProvider";
 
 const SearchBarScreen = () => {
   const [query, setQuery] = useState("");
   const [searchedData, setSearchedData] = useState([]);
+  const {language}=useGlobalContext();
 
   const navigation = useNavigation();
 
@@ -48,19 +50,19 @@ const SearchBarScreen = () => {
             onChangeText={setQuery}
             onBlur={() => handleSearch()}
             className="text-white font-semibold text-[15px] flex-1"
-            placeholder="What do you want to listen to?"
+            placeholder={language.SearchBarPagePlaceHolder}
             placeholderTextColor={"#adacac"}
           />
         </View>
         {query ? (
-          <SearchResult searchedData={searchedData} />
+          <SearchResult searchedData={searchedData} language={language.SearchBarPageResult} />
         ) : (
           <View className="flex flex-col w-[100%] h-[80%] justify-center items-center text-center gap-1">
             <Text className="text-white font-bold text-2xl">
-              Play what you love
+              {language.SearchBarPageHead}
             </Text>
             <Text className="text-[#adacac] font-bold text-sm">
-              Search for artists, tracks, albums, and more.
+              {language.SearchBarPageText}
             </Text>
           </View>
         )}

@@ -4,7 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-const LikedTracksButton = ({ likedTracks }) => {
+const LikedTracksButton = ({ likedTracks, language }) => {
   const navigation = useNavigation();
 
   return (
@@ -21,7 +21,7 @@ const LikedTracksButton = ({ likedTracks }) => {
         <AntDesign name="heart" size={24} color="white" />
       </LinearGradient>
       <View className="flex flex-col justify-center ml-2">
-        <Text className="text-white text-xl font-normal">Liked Songs</Text>
+        <Text className="text-white text-xl font-normal">{language?.LibraryPageBtn1Head}</Text>
         <View className="flex flex-row gap-1">
           <MaterialIcons
             name="push-pin"
@@ -30,7 +30,7 @@ const LikedTracksButton = ({ likedTracks }) => {
             style={{ transform: "rotate(30deg)", marginTop: 3 }}
           />
           <Text className="text-gray-400 text-sm">
-            Playlists • {likedTracks.length} Songs
+          {language?.LibraryPageBtn1SubHead1} • {likedTracks.length} {language?.LibraryPageBtn1SubHead2}
           </Text>
         </View>
       </View>

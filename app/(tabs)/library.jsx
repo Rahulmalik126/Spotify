@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigation } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -15,13 +15,18 @@ import api from "../../services/api";
 import Allcategory from "../../components/libraryComponents/Allcategory";
 
 const Library = () => {
-  const { userProfile } = useGlobalContext();
+  const { userProfile, language } = useGlobalContext();
+  
 
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = useState(language?.LibraryPageCategories[3]);
   const [likedTracks, setLikedTracks] = useState([]);
   const [userPlaylists, setUserPlaylists] = useState([]);
   const [followedArtists, setFollowedArtists] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+
+  useEffect(()=>{
+    setActiveCategory(language?.LibraryPageCategories?.[3])
+  },[language])
 
   const navigation = useNavigation();
 
@@ -91,20 +96,22 @@ const Library = () => {
                   </TouchableOpacity>
                 )}
                 <Text className="text-white text-center text-3xl font-bold ml-4">
-                  Your Library
+                  {language.LibraryPageHead1}
                 </Text>
               </View>
-              <View className="flex flex-row gap-3 mt-4">
-                {libraryCategories.map((category) => (
+              <ScrollView horizontal={true}>
+              <View className="flex flex-row gap-2 mt-4 w-auto">
+                {language?.LibraryPageCategories?.map((category) => (
                   <Category
-                    key={category}
-                    isActive={activeCategory === category}
-                    handlePress={handleActiveCategory}
-                    category={category}
+                  key={category}
+                  isActive={activeCategory === category}
+                  handlePress={handleActiveCategory}
+                  category={category}
                   />
                 ))}
               </View>
-              {activeCategory === "All" && (
+                </ScrollView>
+              {activeCategory === language?.LibraryPageCategories?.[3] && (
                 <View className="h-[100vh] ml-1">
                   <Allcategory
                     likedTracks={likedTracks}
@@ -112,25 +119,26 @@ const Library = () => {
                     followedArtists={followedArtists}
                     onRefresh={onRefresh}
                     refreshing={refreshing}
+                    language={language?.LibraryPageBtn1}
                   />
                 </View>
               )}
               <View className="ml-1">
-                {activeCategory === "Tracks" && (
+                {activeCategory === language?.LibraryPageCategories?.[0] && (
                   <UserLikedTracks
                     likedTracks={likedTracks}
                     onRefresh={onRefresh}
                     refreshing={refreshing}
                   />
                 )}
-                {activeCategory === "Playlists" && (
+                {activeCategory === language?.LibraryPageCategories?.[1] && (
                   <UserFollowedPlaylists
                     userPlaylists={userPlaylists}
                     onRefresh={onRefresh}
                     refreshing={refreshing}
                   />
                 )}
-                {activeCategory === "Artists" && (
+                {activeCategory === language?.LibraryPageCategories?.[2] && (
                   <UserFollowedArtists
                     followedArtists={followedArtists}
                     onRefresh={onRefresh}

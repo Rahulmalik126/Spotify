@@ -75,7 +75,7 @@ const PlaylistScreen = () => {
             />
           </View>
           <View className="ml-8">
-            <Text className="text-white text-4xl font-extrabold">
+            <Text className="text-white text-4xl font-extrabold w-[90%]">
               {playlist?.name}
             </Text>
             <View className="mt-1">

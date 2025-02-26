@@ -7,7 +7,7 @@ const UserFollowedArtists = ({ followedArtists ,onRefresh,refreshing}) => {
   const navigation = useNavigation();
 
   return (
-    <View className="flex ">
+    <View className="h-auto">
       <FlatList
         className="mt-5"
         data={followedArtists}
@@ -39,7 +39,7 @@ const UserFollowedArtists = ({ followedArtists ,onRefresh,refreshing}) => {
             </View>
           </TouchableOpacity>
         )}
-        contentContainerStyle={{ paddingBottom: 450 }}
+        contentContainerStyle={{ paddingBottom: 50 }}
         ItemSeparatorComponent={() => <View className="h-3" />}
         ListEmptyComponent={<Loader />}
         refreshControl={

@@ -13,6 +13,7 @@ import { StatusBar } from "expo-status-bar";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
 import api from "../../services/api";
+import { useGlobalContext } from "../../context/contextProvider";
 
 const AlbumInfoScreen = () => {
   const navigation = useNavigation();
@@ -21,6 +22,7 @@ const AlbumInfoScreen = () => {
 
   const [album, setAlbum] = useState({});
   const [scrollY, setScrollY] = useState(0);
+  const {language}=useGlobalContext();
 
   //Function to change the color of the header
   const handleScroll = (event) => {
@@ -94,10 +96,10 @@ const AlbumInfoScreen = () => {
               </Text>
             </View>
             <Text className="text-gray-400 text-xs mt-1">
-              Album•{album?.release_date?.slice(0, 4)}
+              {language.AlbumPageText1}•{album?.release_date?.slice(0, 4)}
             </Text>
             <Text className="text-gray-400 text-xs mt-1">
-              {album?.total_tracks} Songs
+              {album?.total_tracks} {language.AlbumPageText2}
             </Text>
 
             <View className="flex flex-col w-[100%] h-[100%] gap-1">

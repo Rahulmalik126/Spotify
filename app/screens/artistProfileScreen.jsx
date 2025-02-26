@@ -15,6 +15,7 @@ import api from "../../services/api";
 import { getRandomColor } from "../../utils/helper";
 import ArtistFollowButton from "../../components/artistScreenComponents/ArtistFollowButton";
 import ShowArtistInfo from "../../components/artistScreenComponents/ShowArtistInfo";
+import { useGlobalContext } from "../../context/contextProvider";
 
 const ArtistProfileScreen = () => {
   const navigation = useNavigation();
@@ -24,6 +25,7 @@ const ArtistProfileScreen = () => {
 
   const [artist, setArtist] = useState({});
   const [scrollY, setScrollY] = useState(0);
+  const {language}= useGlobalContext();
 
   const handleScroll = (event) => {
     setScrollY(event.nativeEvent.contentOffset.y);
@@ -111,7 +113,7 @@ const ArtistProfileScreen = () => {
               <Text className="text-gray-400 text-base font-normal ml-3">
                 {artist?.followers?.total &&
                   formatFollowersCount(artist.followers.total)}{" "}
-                monthly listeners
+                {language.ArtistPageText1}
               </Text>
               <ArtistFollowButton artistId={artist?.id} />
             </View>

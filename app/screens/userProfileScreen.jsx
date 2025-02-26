@@ -17,6 +17,8 @@ const UserProfileScreen = () => {
 
   const navigation = useNavigation();
 
+  const {language} = useGlobalContext();
+
   return (
     <LinearGradient
       colors={[`${color.current}`, "black"]}
@@ -47,26 +49,26 @@ const UserProfileScreen = () => {
                 {userProfile?.followers.total}
               </Text>
               <Text className="text-gray-300 text-base font-light">
-                follower•
+                {language.UserPageText1}•
               </Text>
               <Text className="text-white text-base font-bold">
                 {followedArtists.length}
               </Text>
               <Text className="text-gray-300 text-base font-light">
-                following
+                {language.UserPageText2}
               </Text>
             </View>
           </View>
         </View>
         <View className="flex flex-row w-[50%] mt-5 justify-center gap-3 items-center">
           <Text className="px-4 py-1 border-[0.3px] rounded-full border-white text-white ">
-            Edit
+            {language.UserPageBtn1Head}
           </Text>
           <Entypo name="dots-three-vertical" size={14} color="white" />
         </View>
         <View className="w-[full] flex flex-row justify-center items-center h-[20%]">
           <Text className="text-white font-bold text-xl">
-            No recent activity
+            {language.UserPageText3}
           </Text>
         </View>
         <StatusBar backgroundColor="black" style="light" />

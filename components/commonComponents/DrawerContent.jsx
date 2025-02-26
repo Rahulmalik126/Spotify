@@ -12,7 +12,7 @@ import { useGlobalContext } from "../../context/contextProvider";
 import { router } from "expo-router";
 
 const DrawerContent = () => {
-  const { userProfile } = useGlobalContext();
+  const { userProfile, language } = useGlobalContext();
   const navigation = useNavigation();
 
   const handleLogOut = async () => {
@@ -33,7 +33,7 @@ const DrawerContent = () => {
             {userProfile?.display_name}
           </Text>
           <Text className="text-gray-500 text-sm font-medium">
-            View Profile
+            {language.DrawerSubText1}
           </Text>
         </View>
       </TouchableOpacity>
@@ -46,7 +46,7 @@ const DrawerContent = () => {
           className="p-5 pr-2"
         />
         <Text className="p-5 text-white text-lg pl-0 font-bold">
-          Add Account
+          {language.DrawerOption1}
         </Text>
       </TouchableOpacity>
 
@@ -58,7 +58,7 @@ const DrawerContent = () => {
           className="p-5 pr-2"
         />
         <Text className="p-5 text-white text-lg pl-0 font-bold">
-          What's New
+        {language.DrawerOption2}
         </Text>
       </TouchableOpacity>
 
@@ -72,7 +72,7 @@ const DrawerContent = () => {
           color="white"
           className="p-5 pr-2"
         />
-        <Text className="p-5 text-white text-lg pl-0 font-bold">Recents</Text>
+        <Text className="p-5 text-white text-lg pl-0 font-bold">{language.DrawerOption3}</Text>
       </TouchableOpacity>
 
       <TouchableOpacity className="flex flex-row">
@@ -83,7 +83,7 @@ const DrawerContent = () => {
           className="p-5 pr-2"
         />
         <Text className="p-5 text-white text-lg pl-0 font-bold">
-          Settings and Privacy
+        {language.DrawerOption4}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -96,7 +96,7 @@ const DrawerContent = () => {
           color="red"
           className="p-5 pr-3"
         />
-        <Text className="p-5 text-white text-lg pl-0 font-bold">Log Out</Text>
+        <Text className="p-5 text-white text-lg pl-0 font-bold">{language.DrawerOption5}</Text>
       </TouchableOpacity>
     </View>
   );

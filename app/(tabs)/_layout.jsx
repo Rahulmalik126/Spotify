@@ -10,7 +10,7 @@ import {
 } from "@react-navigation/native";
 
 import DrawerContent from "../../components/commonComponents/DrawerContent";
-import GlobalProvider from "../../context/contextProvider";
+import GlobalProvider, { useGlobalContext } from "../../context/contextProvider";
 import Home from "./home";
 import Search from "./search";
 import Library from "./library";
@@ -22,10 +22,14 @@ import AlbumInfoScreen from "../screens/albumInfoScreen";
 import AllLikedSongs from "../screens/allLikedSongs";
 import PlaylistScreen from "../screens/playlistScreen";
 import UserProfileScreen from "../screens/userProfileScreen";
+import Page from "../index";
+import SignUp from "../(auth)/sign-up";
+import LogIn from "../(auth)/log-in"
 
 const Tabs = createBottomTabNavigator();
 // Tab Navigation
 const TabsLayout = () => {
+  const {language} =useGlobalContext();
   return (
     <Tabs.Navigator
       screenOptions={{
@@ -49,7 +53,7 @@ const TabsLayout = () => {
         name="home"
         component={Home}
         options={{
-          title: "Home",
+          title: language.TabName1,
           headerShown: false,
           tabBarIcon: ({ color }) => (
             <View
@@ -61,7 +65,7 @@ const TabsLayout = () => {
               }}
             >
               <Octicons name="home" size={24} color={color} />
-              <Text style={{ color: color, marginTop: 1 }}>Home</Text>
+              <Text style={{ color: color, marginTop: 1 }}>{language.TabName1}</Text>
             </View>
           ),
         }}
@@ -70,7 +74,7 @@ const TabsLayout = () => {
         name="search"
         component={Search}
         options={{
-          title: "Search",
+          title: "Home",
           headerShown: false,
           tabBarIcon: ({ color }) => (
             <View
@@ -82,7 +86,7 @@ const TabsLayout = () => {
               }}
             >
               <Feather name="search" size={24} color={color} />
-              <Text style={{ color: color, marginTop: 1 }}>Search</Text>
+              <Text style={{ color: color, marginTop: 1 }}>{language.TabName2}</Text>
             </View>
           ),
         }}
@@ -103,7 +107,7 @@ const TabsLayout = () => {
               }}
             >
               <Ionicons name="library-outline" size={24} color={color} />
-              <Text style={{ color: color, marginTop: 1 }}>Your Library</Text>
+              <Text style={{ color: color, marginTop: 1 }}>{language.TabName3}</Text>
             </View>
           ),
         }}
@@ -208,6 +212,21 @@ function Navigation() {
             <Stack.Screen
               name="UserProfileScreen"
               component={UserProfileScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="index"
+              component={Page}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="sign-up"
+              component={SignUp}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="log-in"
+              component={LogIn}
               options={{ headerShown: false }}
             />
           </Stack.Navigator>

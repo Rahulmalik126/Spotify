@@ -3,6 +3,7 @@ import { makeRedirectUri } from "expo-auth-session";
 import { apiConfig } from "../config/index";
 import { axiosRequest } from "./apiConnector";
 import { USER, PLAYLIST, TRACKS, ALBUM, ARTISTS, SEARCH } from "./apiEndpoints";
+import axios from "axios";
 
 const api = {
   // Spotify Authentication using OAuth
@@ -442,6 +443,20 @@ const api = {
       throw new Error("Error in unfollowing artist");
     }
   },  
+  fetchTranslation: async (code)=>{
+    try {
+      const response = await axios.get(
+        `https://rahulmalik126.github.io/Translations/${code}.json`
+      );
+      if (!response?.data) {
+        throw new Error("Unexpected response format");
+      }
+  
+      return response.data;
+    } catch (err) {
+      throw new Error("Error in fetching language result.");
+    }
+  }
 };
 
 export default api;

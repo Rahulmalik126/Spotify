@@ -14,11 +14,14 @@ import { useNavigation } from "@react-navigation/native";
 
 import api from "../../services/api";
 import { filterNewRecentTracks } from "../../utils/helper";
+import { useGlobalContext } from "../../context/contextProvider";
 
 const AllRecentTracks = () => {
   const navigation = useNavigation();
   const [recentTracks, setRecentTracks] = useState([]);
   const limit = 50;
+
+  const {language}=useGlobalContext();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -87,7 +90,7 @@ const AllRecentTracks = () => {
             />
           </TouchableOpacity>
           <Text className="text-white font-medium text-xl ml-5">
-            Recently Played
+            {language.RecentlyPlayedHead}
           </Text>
         </View>
 

@@ -20,6 +20,7 @@ const LogIn = () => {
 
   const { request, response, promptAsync } = api.useSpotifyAuth(); // Use the custom API service
 
+
   useEffect(() => {
     const saveToken = async () => {
       if (response?.type === "success") {

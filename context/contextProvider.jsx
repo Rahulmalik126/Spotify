@@ -11,6 +11,7 @@ const GlobalProvider = ({ children }) => {
   const [likedSongs, setLikedSongs] = useState([]);
   const [followedPlaylists, setFollowedPlaylists] = useState([]);
   const [followedArtists, setFollowedArtists] = useState([]);
+  const [language, setLanguage]=useState({});
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -48,7 +49,12 @@ const GlobalProvider = ({ children }) => {
         Alert.alert("Error", "Failed to fetch liked Songs");
       }
     };
+    const fetchTranslationLanguage=async () =>{
+      const languageData=await api.fetchTranslation("de");
+      setLanguage(languageData);
+    }
 
+    fetchTranslationLanguage();
     fetchProfile();
     fetchLikedSongs();
     fetchFollowedPlaylist();
@@ -65,6 +71,7 @@ const GlobalProvider = ({ children }) => {
         setFollowedArtists,
         followedPlaylists,
         setFollowedPlaylists,
+        language
       }}
     >
       {children}

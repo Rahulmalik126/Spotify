@@ -1,17 +1,19 @@
 import { Text, Pressable, Image } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
+import { useGlobalContext } from "../../context/contextProvider";
 
-const HorizontalListItem = ({ title, imageUrl, artists, itemId }) => {
+const HorizontalListItem = ({ title, imageUrl, artists, itemId, section }) => {
+  const {language}=useGlobalContext();
   const navigation = useNavigation();
 
   const handleNavigation = () => {
-    if (title.toLowerCase().includes("artist")) {
+    if (section==="topArtists") {
       navigation.navigate("ArtistProfileScreen", {
         itemId: itemId,
       });
     }
-    if (title.toLowerCase().includes("releases")) {
+    if (section==="newReleases") {
       navigation.navigate("AlbumInfoScreen", {
         itemId: itemId,
       });
